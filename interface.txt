@@ -1,0 +1,69 @@
+singIn(로그인)
+
+- request
+{
+    email : String
+    password : String
+}
+
+- response 
+
+성공
+Http Status - 200 (OK)
+{
+    code : "SU"
+    message : "Success"
+}
+
+실패
+
+- 로그인 실패
+Http Status - 401 (Unthorized)
+{
+    code: "SF",
+    message : "Sign In Failed"
+}
+
+- 데이터베이스 에러 
+Http Status - 500 (Internal Server Error)
+{
+    code: "DE",
+    message: "Database Error."
+}
+
+
+singUp(회원가입)
+
+weeklyTop3List(주간 상위 3개 게시물 리스트)
+
+currnetList(최신 게시물 리스트)
+
+popularWordList(인기 검색어 리스트)
+
+searchList(검색 게시물 리스트)
+
+realativeWordList(관련 검색어리스트)
+
+boardDetail(게시물 삭제)
+
+favoriteList(좋아요 리스트)
+
+putFavorite(졸아요 기능)
+
+commentList (댓글 리스트)
+
+postComment(댓글 쓰기)
+
+postDelete(게시물 삭제)
+
+boardWrite(게시물 쓰기)
+
+boardUpdate(게시물 수정)
+
+getUser(유저 정보)
+
+userBoardList(특정 유저 게시물 리스트)
+
+fileUpload(파일 업로드)
+
+getFile(파일 불러오기)
