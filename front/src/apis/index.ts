@@ -26,18 +26,19 @@ const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;
 export const signInRequest = async(requestBody: SignInRequestDto) => {
     const result = await axios.post(SIGN_IN_URL(), requestBody)
     .then(response => {
-        const responseBody: SignInResponseDto = response.data;
-        return responseBody;
+        console.log('axios success:', response);
+        return response.data as SignInResponseDto;
     })
     .catch(error => {
-        if (!error.response.data) return null;
-        const responseBody: ResponseDto = error.response.data;
-        return responseBody;
+        if (!error.response) return null;
+        console.log('axios error:', error);
+        console.log('axios error response:', error.response);
+        return error.response.data as ResponseDto;
     })
 return result;
     
         
-}
+};
 
 export const signUpRequest = async(requestBody: SignInRequestDto) => {
     const result = await axios. post(SIGN_UP_URL(), requestBody)
@@ -61,7 +62,7 @@ const GET_USER_BOARD_LIST_URL=(email: string)=>`${API_DOMAIN}/board/user-board-l
 const INCREASE_VIEW_COUNT_URL = (boardNumber: number | string) => `${API_DOMAIN}/board/${boardNumber}/increase-view-count`;
 const GET_FAVORITE_LIST_URL=(boardNumber: number|string) => `${API_DOMAIN}/board/${boardNumber}/favorite-list`;
 const GET_COMMENT_LIST_URL =(boardNumber: number|string) => `${API_DOMAIN}/board/${boardNumber}/comment-list`;
-const POST_BOARD_URL = () => '${API_DOMAIN}/board';
+const POST_BOARD_URL = () => `${API_DOMAIN}/board`;
 const POST_COMMENT_URL = (boardNumber: number|string) => `${API_DOMAIN}/board/${boardNumber}/comment`;
 const PATCH_BOARD_URL = (boardNumber: number|string) => `${API_DOMAIN}/board/${boardNumber}`;
 const PUT_FAVORITE_URL = (boardNumber: number|string) => `${API_DOMAIN}/board/${boardNumber}/favorite`;
@@ -305,19 +306,22 @@ export const getUserRequest = async (email: string) => {
     return result;
 };
 
-export const getSignInUserRequest = async (accessToken: string) => {
-    const result = await axios.get(GET_SIGN_IN_USER_URL(), authorization(accessToken))
-    .then(response => {
-        const responseBody: GetSignInUserResponseDto = response.data;
-        return responseBody;
-    })
-    .catch(error => {
-        if (!error.response) return null;
-    const responseBody: ResponseDto = error.response.data;
-    return responseBody;
-    });
+export const getSignInUserRequest = async (token: string) => {
+  const result = await axios.get(
+    GET_SIGN_IN_USER_URL(),
+    {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    }
+  )
+  .then(response => response.data)
+  .catch(error => {
+    if (!error.response) return null;
+    return error.response.data;
+  });
 
-return result;
+  return result;
 };
 
 export const patchNicknameRequest = async (requestBody: PatchNicknameRequestDto, accessToken: string) => {
@@ -349,7 +353,7 @@ export const patchProfileImageRequest = async (requestBody: PatchProfileImageReq
 };
 
 
-const FILE_DOMAIN = '${DOMAIN}/file';
+const FILE_DOMAIN = `${DOMAIN}/file`;
 
 const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;
 

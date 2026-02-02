@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
 
-    background-color:rgba(o, 0, 0, 0.05);
+    background-color:rgba(0,0, 0,0.05);
 }
 
 .search-container {
@@ -39,13 +39,15 @@
     line-height: 140%;
 }
 
-search-count {
+.search-count {
     color:rgba(0, 0, 0, 1);
 
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 140%;
 }
+
+
 
 .search-contents-box {
     width: 100%;

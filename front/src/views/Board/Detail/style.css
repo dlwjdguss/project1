@@ -114,9 +114,11 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 140%;
+
+    
 }
 
-.board-detail-detail-button:hover{
+.board-detail-delete-button:hover{
     cursor:pointer;
     background-color: rgba(0, 0, 0, 0.03);
 }
@@ -178,7 +180,7 @@
 }
 
 .board-detail-bottom-favorite-title {
-    color:rgba(0, 0, 0, 0.1);
+    color:rgba(0, 0, 0, 0.8);
 
     font-size: 16px;
     font-weight: 500;

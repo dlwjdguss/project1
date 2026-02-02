@@ -20,11 +20,12 @@ export default function Main() {
   const navigate=useNavigate();
 
   const MainTop = () => {
-
+    
     const [top3BoardList, setTop3BoardList] = useState<BoardListItem[]>([]);
 
     const getTop3BoardListResponse = (responseBody: GetTop3BoardListResponseDto | ResponseDto | null) => {
       if (!responseBody) return;
+     
       const { code } = responseBody;
       if (code === 'DBE') alert('데이터베이스 오류입니다.');
       if (code !== 'SU') return;
@@ -35,7 +36,8 @@ export default function Main() {
 };
 
     useEffect(() => {
-    getTop3BoardListRequest().then(getTop3BoardListRequest);
+      
+      getTop3BoardListRequest().then(getTop3BoardListResponse);
     }, []);
 
     return (

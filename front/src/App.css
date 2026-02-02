@@ -1,5 +1,5 @@
 .divider{
-    border-top:1px solid rgba(0, 0, 0, 0.02);
+    border-top:1px solid rgba(0, 0, 0, 0.2);
     width: 100%;
 }
 
@@ -177,15 +177,15 @@
     background-image: url(assets/image/eye-light-on.png);
 }
 
-.expend-right-light-icon{
+.expand-right-light-icon{
     background-image: url(assets/image/expand-right-light.png);
 }
 
-.expend-left-icon{
+.expand-left-icon{
     background-image: url(assets/image/expand-left.png);
 }
 
-.expend-right-icon{
+.expand-right-icon{
     background-image: url(assets/image/expand-right.png);
 }
 
@@ -260,4 +260,5 @@
 .arrow-right-icon{
     background-image: url(assets/image/arrow-right.png);
 }
+
 

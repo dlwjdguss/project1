@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, use, useEffect, useRef, useState } from 'react';
 import './style.css';
 import useBoardStore from 'stores/board.store';
 import { useLoginUserStore } from 'stores';
@@ -18,14 +18,14 @@ export default function BoardWrite() {
   const titleRef = useRef<HTMLTextAreaElement | null>(null);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   
-  const{boardNumber}=useParams();
+ 
   
   // state: 게시물 상태
   const { title, setTitle } = useBoardStore();
   const { content, setContent } = useBoardStore();
   const { boardImageFileList, setBoardImageFileList } = useBoardStore();
-
-  const {loginUser}=useLoginUserStore();
+  const {resetBoard}=useBoardStore();
+  
 
   // state: 쿠키 상태
   const[cookies, setCookies]=useCookies();
@@ -36,39 +36,13 @@ export default function BoardWrite() {
   //function: 네비게이트 함수
   const navigator = useNavigate();
 
-  const getBoardResponse = (responseBody: GetBoardResponseDto | ResponseDto | null) => {
-    if (!responseBody) return;
-    const { code } = responseBody;
-    if (code === 'NB') alert('존재하지 않는 게시물입니다.');
-    if (code === 'DBE') alert('데이터베이스 오류입니다.');
-    if (code !== 'SU') {
-      navigator(MAIN_PATH);
-      return;
-    }
-    const { title, content, boardImageList, writerEmail } = responseBody as GetBoardResponseDto;
-    setTitle(title);
-    setContent(content);
-    setImageUrls(boardImageList);
-    convertUrlsToFile(boardImageList).then(boardImageFileList=>setBoardImageFileList(boardImageFileList));
-
-    if(!loginUser || loginUser.email !== writerEmail){
-      navigator(MAIN_PATH);
-      return;
-    }
-
-    if(!contentRef.current)return;
-    contentRef.current.style.height='auto';
-    contentRef.current.style.height=`${contentRef.current.scrollHeight}px`;
-
-}
-
   const onTitleChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target;
     setTitle(value);
 
     if (!titleRef.current) return;
     titleRef.current.style.height = 'auto';
-    titleRef.current.style.height = '${titleRef.current.scrollHeight}px';
+    titleRef.current.style.height = `${titleRef.current.scrollHeight}px`;
   }
 
   const onContentChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -77,7 +51,7 @@ export default function BoardWrite() {
 
     if (!contentRef.current) return;
     contentRef.current.style.height = 'auto';
-    contentRef.current.style.height = '${contentRef.current.scrollHeight}px';
+    contentRef.current.style.height = `${contentRef.current.scrollHeight}px`;
   }
 
   const onImageChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -118,9 +92,8 @@ export default function BoardWrite() {
         navigator(MAIN_PATH);
         return;
     }
-  if(!boardNumber) return;
-  getBoardRequest(boardNumber).then(getBoardResponse);
-},[boardNumber]);
+    resetBoard();
+},[]);
 
   return (
     <div id='board-write-wrapper'>
@@ -146,8 +119,6 @@ export default function BoardWrite() {
               </div>
             </div>
             )}
-            
-
          </div>
         </div>
      </div>

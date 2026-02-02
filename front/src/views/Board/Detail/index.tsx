@@ -44,7 +44,7 @@ export default function BoardDetail() {
     const getWriteDatetimeFormat = () => {
       if (!board) return '';
       const date = dayjs(board.writeDatetime);
-      return date.format('YYYY. MM. DD.');
+      return date.format('YYYY.MM.DD.');
       }
 
     const getBoardResponse = (responseBody: GetBoardResponseDto | ResponseDto | null) => {
@@ -237,9 +237,8 @@ const getCommentListResponse = (responseBody: GetCommentListResponseDto | Respon
     const onShowCommentClickHandler = () => {
       setShowComment(!showComment);
     }
-
-  
-     const onCommentSubmitButtonClickHandler = () => {
+    
+    const onCommentSubmitButtonClickHandler = () => {
       if(!comment || !boardNumber || !loginUser || !cookies.accessToken)return;
       const requestBody: PostCommentRequestDto={content:comment};
       postCommentRequest(boardNumber, requestBody, cookies.accessToken).then(postCommentResponse);
@@ -283,7 +282,7 @@ const getCommentListResponse = (responseBody: GetCommentListResponseDto | Respon
             <div className='icon-button'>
             <div className='icon comment-icon'></div>
             </div>
-            <div className='board-detail-bottom-button-text'>{`댓글${totalCommentCount}`}</div>
+            <div className='board-detail-bottom-button-text'>{`댓글 ${totalCommentCount}`}</div>
             <div className='icon-button' onClick={onShowCommentClickHandler}>
               {showComment ?
               <div className='icon up-light-icon'></div> :
@@ -295,7 +294,7 @@ const getCommentListResponse = (responseBody: GetCommentListResponseDto | Respon
         {showFavorite &&
         <div className='board-detail-bottom-favorite-box'>
           <div className='board-detail-bottom-favorite-container'>
-            <div className='board-detail-bottom-favorite-title'>{'좋아요'}<span className='emphasis'>{favoriteList.length}</span></div>
+            <div className='board-detail-bottom-favorite-title'>{'좋아요 '}<span className='emphasis'>{favoriteList.length}</span></div>
             <div className='board-detail-bottom-favorite-contents'>
               {favoriteList.map(item => <FavoriteItem favoriteListItem={item} />)}
             </div>
@@ -305,7 +304,7 @@ const getCommentListResponse = (responseBody: GetCommentListResponseDto | Respon
         {showComment &&
           <div className='board-detail-bottom-comment-box'>
             <div className='board-detail-bottom-comment-container'>
-              <div className='board-detail-bottom-comment-title'>{'댓글'}<span className='emphasis'>{totalCommentCount}</span></div>
+              <div className='board-detail-bottom-comment-title'>{'댓글 '}<span className='emphasis'>{totalCommentCount}</span></div>
               <div className='board-detail-bottom-comment-list-container'>
                 {viewList.map(item => <CommentItem commentListItem={item} />)}
               </div>

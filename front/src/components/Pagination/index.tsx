@@ -39,7 +39,7 @@ export default function Pagination(props: Props) {
                 <div className='icon-box-small'>
                     <div className='icon expand-left-icon'></div>
                 </div>
-                <div className='pagination-change-link-text' onClick={onPreviousClickHandler}>{'0|3l'}</div>
+                <div className='pagination-change-link-text' onClick={onPreviousClickHandler}>{'이전'}</div>
             </div>
             <div className='pagination-divider'>{'\|'}</div>
 

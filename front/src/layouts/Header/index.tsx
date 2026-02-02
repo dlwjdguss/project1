@@ -3,7 +3,8 @@ import './style.css'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AUTH_PATH,MAIN_PATH, SEARCH_PATH,USER_PATH } from 'constant';
 import {useCookies} from 'react-cookie';
-import { useLoginUserStore,useBoardStore } from 'stores';
+import { useLoginUserStore } from 'stores';
+import useBoardStore from 'stores/board.store';
 import { BOARD_PATH, BOARD_DETAIL_PATH, BOARD_WRITE_PATH, BOARD_UPDATE_PATH } from 'constant';
 import { fileUploadRequest, patchBoardRequest, postBoardRequest } from 'apis';
 import { PatchBoardRequestDto, PostBoardRequestDto } from 'apis/request/board';
@@ -114,7 +115,7 @@ export default function Header() {
     //event handler:마이페이지 버튼클릭 이벤트 처리
     const onSignOutButtonClickHandler=()=>{
       resetLoginUser();
-      setCookie('accessToken','',{path:MAIN_PATH, expires: new Date() });
+      setCookie('accessToken', '', {path:MAIN_PATH, expires: new Date() });
       navigate(MAIN_PATH);
     };
 
@@ -135,9 +136,9 @@ const UploadButton=()=>{
 
   const{boardNumber}=useParams();
   //state : 게시물 상태
-  const{title,content,boardImageFileList,resetBoard}=useBoardStore() as any;
+  const{title,content,boardImageFileList,resetBoard}=useBoardStore() ;
 
-  const PostBoardResponse=(responseBody: PostBoardResponseDto | ResponseDto | null) =>{
+  const postBoardResponse=(responseBody: PostBoardResponseDto | ResponseDto | null) =>{
     if(!responseBody)return;
     const{code}=responseBody;
     if (code === 'DBE') alert('데이터베이스 오류입니다.');
@@ -167,11 +168,11 @@ const UploadButton=()=>{
     //event handler: 업로드 버튼 클릭 이벤트 처리
   const onUploadButtonClickHandler= async ()=>{
       const accessToken = cookies.accessToken;
-      if(!accessToken) return;
-
+      if(!accessToken){ 
+        console.log('토큰 없음');
+        return;
+      }
       const boardImageList: string[]=[];
-
-
       for(const file of boardImageFileList)
       {
         const data = new FormData();
@@ -186,26 +187,26 @@ const UploadButton=()=>{
         const requestBody: PostBoardRequestDto = {
           title, content, boardImageList
         }
-        postBoardRequest(requestBody, accessToken). then(postBoardResponse);
+        postBoardRequest(requestBody, accessToken).then(postBoardResponse);
       } else {
         if (!boardNumber) return;
         const requestBody: PatchBoardRequestDto = {
            title, content, boardImageList
            }
-          patchBoardRequest(boardNumber, requestBody, accessToken) .then(patchBoardResponse);
+          patchBoardRequest(boardNumber, requestBody, accessToken).then(patchBoardResponse);
         }
   }
-
-      
+  
 
     // render:업로드 버튼 컴포넌트 렌더링
     if(title && content)
-    return <div className='black-button' onClick={onUploadButtonClickHandler}>{'업로드'}</div>;
-
+      return <div className='black-button' onClick={onUploadButtonClickHandler}>{'업로드'}</div>;
     // render:업로드 불가 버튼 컴포넌트 렌더링
-    
     return <div className='disable-button' >{'업로드'}</div>;
+
 };
+
+  
   // effect : path 변경
   useEffect(() => {
     const isAuthPage = pathname.startsWith(AUTH_PATH);
@@ -214,11 +215,11 @@ const UploadButton=()=>{
     setMainPage(isMainPage);
     const isSearchPage = pathname.startsWith(SEARCH_PATH(''));
     setSearchPage(isSearchPage);
-    const isBoardDetailPage = pathname.startsWith(BOARD_PATH + '/' + BOARD_DETAIL_PATH(''));
+    const isBoardDetailPage = pathname.startsWith(BOARD_PATH() + '/' + BOARD_DETAIL_PATH(''));
     setBoardDetailPage(isBoardDetailPage);
-    const isBoardWritePage = pathname.startsWith(BOARD_PATH + '/' + BOARD_WRITE_PATH);
+    const isBoardWritePage = pathname.startsWith(BOARD_PATH() + '/' + BOARD_WRITE_PATH());
     setBoardWritePage(isBoardWritePage);
-    const isBoardUpdatePage = pathname.startsWith(BOARD_PATH + '/' + BOARD_UPDATE_PATH(''));
+    const isBoardUpdatePage = pathname.startsWith(BOARD_PATH() + '/' + BOARD_UPDATE_PATH(''));
     setBoardUpdatePage(isBoardUpdatePage);
     const isUserPage = pathname.startsWith(USER_PATH(''));
     setUserPage(isUserPage);
@@ -240,8 +241,8 @@ const UploadButton=()=>{
             </div>
             <div className='header-right-box'>
               {(isAuthPage || isMainPage ||isSearchPage||isBoardDetailPage)&&<SearchButton/>}
-              {(isMainPage || isSearchPage||isBoardDetailPage||isUserPage)&&<MyPageButton/>}
-              {(isBoardWritePage||isBoardUpdatePage)&&<UploadButton/>}
+              {!isBoardWritePage && !isBoardUpdatePage &&(isMainPage || isSearchPage||isBoardDetailPage||isUserPage)&&<MyPageButton/>}
+              {(isBoardWritePage||isBoardUpdatePage)&&<UploadButton />}
               
             </div>
             </div>

@@ -24,12 +24,11 @@ export default function User() {
 
   const[cookies,setCookies]=useCookies();
 
-  const[isMyPage,setMyPage]= useState<boolean>(true);
+  const[isMyPage,setMyPage]= useState<boolean>(false);
 
   const navigate = useNavigate();
 
   const UserTop = () => {
-
 
     const imageInputRef = useRef<HTMLInputElement | null>(null);
 ;

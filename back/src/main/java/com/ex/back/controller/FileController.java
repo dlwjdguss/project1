@@ -2,13 +2,8 @@ package com.ex.back.controller;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.method.P;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ex.back.service.FileService;
@@ -22,20 +17,39 @@ public class FileController {
     
     private final FileService fileService;
 
+    /**
+     * 파일 업로드
+     */
     @PostMapping("/upload")
-    public String upload(
-        @RequestParam("file") MultipartFile file
-    ) {
-    String url = fileService.upload(file);
-    return url;
+    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
+        String url = fileService.upload(file);
+
+        if (url == null) {
+            return ResponseEntity.badRequest()
+                    .body("{\"code\":\"FAIL\", \"message\":\"File upload failed.\"}");
+        }
+
+        return ResponseEntity.ok("{\"code\":\"OK\", \"url\":\"" + url + "\"}");
     }
 
-    @GetMapping(value="{fileName}", produces={MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    public Resource getImage(
-        @PathVariable("fileName") String fileName
-    ){
-        Resource resource = (Resource) fileService.getImage(fileName);
-        return resource;
-    }
+    /**
+     * 파일 다운로드 / 이미지 보기
+     */
+    @GetMapping("/{fileName}")
+    public ResponseEntity<Resource> getImage(@PathVariable String fileName) {
+        Resource resource = fileService.getImage(fileName);
+        if (resource == null || !resource.exists()) {
+            return ResponseEntity.notFound().build();
+        }
 
+        // 파일 확장자에 따라 Content-Type 설정
+        String contentType = "application/octet-stream"; // 기본
+        if (fileName.endsWith(".png")) contentType = "image/png";
+        else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) contentType = "image/jpeg";
+        else if (fileName.endsWith(".gif")) contentType = "image/gif";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .body(resource);
+    }
 }

@@ -32,7 +32,7 @@ public interface SearchLogRepository extends JpaRepository<SearchLogEntity, Inte
         "SELECT relation_word as searchWord, count(relation_word) AS count " +
         "FROM search_log " +
         "WHERE search_word = ?1 "+
-        "AND relation_word IS NOT NULL  "  +
+        "AND relation_word IS NOT NULL "  +
         "GROUP BY relation_word " + 
         "ORDER BY count DESC " +
         "LIMIT 15 ",

@@ -1,7 +1,7 @@
 import Footer from 'layouts/Footer';
 import './App.css';
 import {Route,Routes} from 'react-router-dom';
-import Main from 'views/Search';
+import Main from 'views/Main';
 import Authentication from 'views/Authentication';
 import Search from 'views/Search';
 import UserP from 'views/User';

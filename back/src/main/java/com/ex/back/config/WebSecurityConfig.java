@@ -46,8 +46,9 @@ public class WebSecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(request -> request
-                .requestMatchers("/", "/api/v1/auth/ ** ", "/api/v1/search/ ** ", "/file/ ** ").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/v1/board/ ** ", "/api/v1/user/*").permitAll()
+                .requestMatchers("/files/**").permitAll()
+                .requestMatchers("/", "/api/v1/auth/**", "/api/v1/search/**", "/files/**","/files/upload").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/board/**","/api/v1/user", "/api/v1/user/*").permitAll()
                 .anyRequest().authenticated()
             )   
             .exceptionHandling(exceptionHandling -> exceptionHandling
@@ -65,10 +66,11 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("*");
         configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
         configuration.addExposedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/ ** ", configuration);
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }
@@ -87,4 +89,3 @@ public class WebSecurityConfig {
     }
 }
 
-    

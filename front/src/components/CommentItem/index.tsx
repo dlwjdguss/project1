@@ -15,7 +15,7 @@ export default function CommentItem({commentListItem}: Props) {
     const { nickname, profileImage, writeDatetime, content } = commentListItem;
 
     const getElapsedTime = () => {
-        const now = dayjs().add(9, 'hour');
+        const now = dayjs().add(0, 'hour');
         const writeTime = dayjs(writeDatetime);
 
         const gap = now.diff(writeTime, 's');

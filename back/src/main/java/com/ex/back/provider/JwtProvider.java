@@ -6,7 +6,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.security.Key;
 
-
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -21,12 +20,12 @@ public class JwtProvider {
     @Value("${jwt.secret}")
     private String secretKey;
 
+    // 토큰 생성
     public String create(String email) {
-
         Date expiredDate = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
-        Key key=Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+        Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
-        String jwt= Jwts.builder()
+        String jwt = Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(expiredDate)
@@ -35,19 +34,21 @@ public class JwtProvider {
         return jwt;
     }
 
+    // 토큰 검증
     public String validate(String jwt) {
-        Claims claims=null;
-        Key key=Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-
         try {
-            claims = Jwts.parserBuilder()
+            Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)  // ⚡ 필수
                     .build()
                     .parseClaimsJws(jwt)
                     .getBody();
+
+            return claims.getSubject(); // email 반환
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return null; // 유효하지 않으면 null 반환
         }
-        return claims.getSubject();
-}
+    }
 }

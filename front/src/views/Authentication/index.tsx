@@ -10,6 +10,9 @@ import{MAIN_PATH} from 'constant';
 import { useNavigate } from 'react-router-dom';
 import { ResponseCode } from 'types/enum';
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
+import { getSignInUserRequest } from 'apis';
+import { useLoginUserStore } from 'stores';
+import { GetSignInUserResponseDto } from 'apis/response/user';
 
 
 export default function Authentication() {
@@ -20,6 +23,8 @@ export default function Authentication() {
   const navigator = useNavigate();
 
   const SignInCard = () => {
+    const { setLoginUser } = useLoginUserStore();
+
     const emailRef=useRef<HTMLInputElement| null>(null);
     const passwordRef=useRef<HTMLInputElement| null>(null);
     const[email, setEmail] = useState<string>('');
@@ -28,7 +33,7 @@ export default function Authentication() {
     const [passwordButtonIcon, setPasswordButtonIcon] = useState<'eye-light-off-icon' |'eye-light-on-icon'>('eye-light-off-icon');
     const [error, setError] = useState<boolean>(false);
 
-    const signInResponse = (responseBody: SignInResponseDto|ResponseDto|null)=>{
+    const signInResponse = async(responseBody: SignInResponseDto|ResponseDto|null)=>{
       console.log('responseBody:', responseBody);
       if (!responseBody) {
         alert('네트워크 이상입니다.');
@@ -47,9 +52,25 @@ export default function Authentication() {
       const expires = new Date(now+expirationTime*1000);
 
       setCookies('accessToken', token, {expires, path: MAIN_PATH });
-      navigator(MAIN_PATH);
-    }
+      
+      getSignInUserRequest(token).then(response => {
+        if (!response) return;
+        const {code}=response as ResponseDto;
+        if (response.code !=='SU') return;
+
+        const user = response as GetSignInUserResponseDto;
+
+    setLoginUser({
+      email: user.email,
+      nickname: user.nickname,
+      profileImage: user.profileImage
+    });
+
  
+      navigator(MAIN_PATH);
+    });
+  }
+  
     const onEmailChangeHandler=(event:React.ChangeEvent<HTMLInputElement>)=>{
       setError(false);
       const {value} = event.target;
@@ -119,6 +140,7 @@ export default function Authentication() {
   };
 
   const SignUpCard = () => {
+
     //  state : 참조 상태
     const emailRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -269,7 +291,7 @@ export default function Authentication() {
     }
     
     const onNextButtonClickHandler = () => {
-      const emailPattern = /^[a-zA-Z0-9]'@([-.]?[a-zA-Z0-9])*\.[a-zA-z]{2,4}$/;
+      const emailPattern = /^[a-zA-Z0-9]+@([-.]?[a-zA-Z0-9])*\.[a-zA-z]{2,4}$/;
       const isEmailPattern = emailPattern.test(email);
       if (!isEmailPattern) {
         setEmailError(true);
@@ -290,7 +312,7 @@ export default function Authentication() {
   }
 
     const onSignUpButtonClickHandler = () => {
-      const emailPattern = /^[a-zA-Z0-9]'@([-.]?[a-zA-Z0-9])*\.[a-zA-z]{2,4}$/;
+      const emailPattern = /^[a-zA-Z0-9]+@([-.]?[a-zA-Z0-9])*\.[a-zA-z]{2,4}$/;
       const isEmailPattern = emailPattern.test(email);
       if (!isEmailPattern) {
         setEmailError(true);

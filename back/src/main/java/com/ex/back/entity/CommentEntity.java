@@ -3,6 +3,7 @@ package com.ex.back.entity;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
+import java.util.TimeZone;
 
 import com.ex.back.dto.request.board.PostCommentRequestDto;
 
@@ -32,7 +33,7 @@ public class CommentEntity {
 
     public CommentEntity(PostCommentRequestDto dto, Integer boardNumber, String email) {
     Date now = Date.from(Instant.now());
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm: ss");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
 
     String writeDatetime = simpleDateFormat.format(now);
