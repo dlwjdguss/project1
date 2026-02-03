@@ -31,7 +31,7 @@ export default function User() {
   const UserTop = () => {
 
     const imageInputRef = useRef<HTMLInputElement | null>(null);
-;
+
     const [isNicknameChange, setNicknameChange] = useState<boolean>(false);
     const [nickname, setNickname] = useState<string>('');
     const [changeNickname, setChangeNickname] = useState<string>('');

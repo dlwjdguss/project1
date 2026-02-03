@@ -317,7 +317,7 @@ export default function Authentication() {
       if (!isEmailPattern) {
         setEmailError(true);
         setEmailErrorMessage('이메일 주소 포멧이 맞지 않습니다.');
-    }
+      }
     const isCheckedPassword = password.trim() .length >= 8;
     if (!isCheckedPassword) {
       setPasswordError(true);
@@ -348,6 +348,13 @@ export default function Authentication() {
       setAddressError(true);
       setAddressErrorMessage('주소를 입력해주세요.');
     }
+    if (!hasNickname || !isTelNumberPattern || !hasAddress || !agreedPersonal) return;
+
+const requestBody: SignUpRequestDto = {
+  email, password, nickname, telNumber, address, addressDetail, agreedPersonal
+};
+signUpRequest(requestBody).then(signUpResponse);
+navigator(MAIN_PATH)
 
   }
 
@@ -453,7 +460,7 @@ export default function Authentication() {
             </>
             )}
           <div className='auth-description-box'>
-            <div className='auth-description'>{'이미 계정이 있으신가요? '}<span className='auth-description-link'>{'로그인'}</span></div>
+            <div className='auth-description'>{'이미 계정이 있으신가요? '}<span className='auth-description-link' >{'로그인'}</span></div>
           </div>
         </div>
       </div>
