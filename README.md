@@ -97,14 +97,28 @@
 - 인증 실패 / 권한 없음 코드 분리 처리
 
 ---
+## ✅ 구현 결과
 
+### 👤 유저 관련 기능
+
+| 로그인·로그아웃 | 닉네임 중복 체크 | 개인정보 수정 |
+|------|-----------|---------------|
+| ![Image](https://github.com/user-attachments/assets/b0b73d5e-87dc-4c57-8b9e-7f74593a915f)  | ![Image](https://github.com/user-attachments/assets/3cacd1fc-d972-43dd-95c3-b85233e4d8ea)      | ![Image](https://github.com/user-attachments/assets/91c46526-e3c9-4d52-b720-66823eebd9f7)          |
+
+### 👤 게시판 관련 기능
+| 글 작성 | 수정 | 삭제 | 
+|--------|------|------|
+| ![Image](https://github.com/user-attachments/assets/b5a5632a-3df4-434a-af5e-605e89ada4d5)    |   ![Image](https://github.com/user-attachments/assets/8d6ecfcb-317c-4e16-b264-ea3c09b18df2)| ![Image](https://github.com/user-attachments/assets/a918e727-ef34-41dc-ab90-05e61a844e78)  |
+
+|댓글 작성   |      검색 |
+|----------- |-----------|
+| ![Image](https://github.com/user-attachments/assets/2670816f-7ea0-43ab-98b3-26f8c0cf259f)  | ![Image](https://github.com/user-attachments/assets/f13d29ad-8884-4719-bc8b-0a93185a464c)  |
+
+---
 ## E-R 다이어그램
 <img width="400" height="500" alt="erd" src="https://github.com/user-attachments/assets/af098c1f-4c9d-4e7c-b417-3b74528b9fea" />
 
-## 구현결과
 
-
----
 
 
 
