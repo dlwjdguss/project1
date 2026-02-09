@@ -97,14 +97,14 @@
 - 인증 실패 / 권한 없음 코드 분리 처리
 
 ---
+
+## E-R 다이어그램
+<img width="400" height="500" alt="erd" src="https://github.com/user-attachments/assets/af098c1f-4c9d-4e7c-b417-3b74528b9fea" />
+
 ## 구현결과
 
 
 ---
-## E-R 다이어그램
-<img width="400" height="500" alt="erd" src="https://github.com/user-attachments/assets/af098c1f-4c9d-4e7c-b417-3b74528b9fea" />
-
-
 
 
 
