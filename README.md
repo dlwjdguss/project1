@@ -75,7 +75,7 @@
 
 ---
 
-## 🖼 파일 업로드 기능
+##  파일 업로드 기능
 
 - Multipart/Form-Data 기반 파일 업로드  
 - 프로필 이미지 변경 기능 구현  
@@ -91,15 +91,15 @@
 - 인증 실패 / 권한 없음 코드 분리 처리
 
 ---
-## ✅ 구현 결과
+##  구현 결과
 
-### 👤 유저 관련 기능
+###  유저 관련 기능
 
 | 로그인·로그아웃 | 닉네임 중복 체크 | 개인정보 수정 |
 |------|-----------|---------------|
 | ![Image](https://github.com/user-attachments/assets/b0b73d5e-87dc-4c57-8b9e-7f74593a915f)  | ![Image](https://github.com/user-attachments/assets/3cacd1fc-d972-43dd-95c3-b85233e4d8ea)      | ![Image](https://github.com/user-attachments/assets/91c46526-e3c9-4d52-b720-66823eebd9f7)          |
 
-### 👤 게시판 관련 기능
+###  게시판 관련 기능
 | 글 작성 | 수정 | 삭제 | 
 |--------|------|------|
 | ![Image](https://github.com/user-attachments/assets/b5a5632a-3df4-434a-af5e-605e89ada4d5)    |   ![Image](https://github.com/user-attachments/assets/8d6ecfcb-317c-4e16-b264-ea3c09b18df2)| ![Image](https://github.com/user-attachments/assets/a918e727-ef34-41dc-ab90-05e61a844e78)  |
